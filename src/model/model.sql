@@ -40,3 +40,6 @@ USING(user_id); --! ON bilan bir xil vazifa bajaradi farqi reference nomi bilan 
 
 ALTER TABLE users ADD COLUMN user_password varchar(150);
 
+  INSERT INTO users(user_name, user_password) VALUES('Nurulloh', crypt('parollik', gen_salt('bf', 4)));
+
+SELECT * FROM users WHERE user_name = 'Nurulloh' AND user_password = crypt('parollik', user_password);
