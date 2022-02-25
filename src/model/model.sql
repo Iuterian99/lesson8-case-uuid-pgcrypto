@@ -43,3 +43,77 @@ ALTER TABLE users ADD COLUMN user_password varchar(150);
   INSERT INTO users(user_name, user_password) VALUES('Nurulloh', crypt('parollik', gen_salt('bf', 4)));
 
 SELECT * FROM users WHERE user_name = 'Nurulloh' AND user_password = crypt('parollik', user_password);
+
+
+--! Functions in  PLPGSQL 
+
+
+--!----------------------------- CALCULATOR ---------------------------------------------------
+CREATE OR REPLACE FUNCTION calc(num1 float, num2 float, sign_of text) 
+RETURNS float 
+LANGUAGE plpgsql
+AS $$
+
+DECLARE result float;
+
+BEGIN 
+IF 
+    (sign_of = '+')
+THEN 
+    result = num1 + num2;
+ELSIF 
+    (sign_of = '-')
+THEN 
+    result = num1 - num2;
+ELSIF 
+    (sign_of = '*')
+THEN 
+    result = num1 * num2;
+ELSIF 
+    (sign_of = '/')
+THEN 
+    result = num1 / num2;
+END IF;
+
+RETURN result;
+
+END;
+$$;
+
+
+select calc(5, 3, '/');
+
+--!------------------------------------------- FIZZBUZZ ---------------------------------------------
+
+CREATE OR REPLACE FUNCTION fizzbuzz(input int) 
+RETURNS text
+LANGUAGE plpgsql
+AS $$
+
+DECLARE result text;
+
+BEGIN 
+IF 
+    (input % 3 = 0 AND input % 5 = 0)
+THEN 
+    result = 'FIZZBUZZ';
+ELSIF 
+    (input % 3 = 0)
+THEN 
+    result = 'FIZZ';
+ELSIF 
+    (input % 5 = 0)
+THEN 
+    result = 'BUZZ';
+ELSIF 
+    (input % 5 != 0 AND input % 3 != 0)
+THEN 
+    result = 'It is not divisible by 3 and 5';
+END IF;
+
+RETURN result;
+
+END;
+$$;
+
+
