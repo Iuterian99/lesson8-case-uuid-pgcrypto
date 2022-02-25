@@ -9,7 +9,8 @@ GROUP BY restaurant_name;
 
 select * from restaurants where restaurant_name LIKE 'r%';
 
-CREATE EXTENSION "uuid-ossp";
+CREATE EXTENSION "uuid-ossp"; --! "uuid" idlarni hashlash(shriftlash) uchun ishlatiladi
+CREATE EXTENSION IF NOT EXISTS "pgcrypto"; --! passwordlarni hashlash uchun ishlatiladi
 
 CREATE TABLE users(
   user_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -18,9 +19,24 @@ CREATE TABLE users(
 
 
 INSERT INTO users(user_name) values('Muslim');
+INSERT INTO users(user_name) values('Sardor');
 
 CREATE TABLE posts(
   post_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   post_title varchar(100) NOT NULL,
   user_id uuid REFERENCES users(user_id)
 );
+
+INSERT INTO posts(post_title, user_id) values('Futbol barca- Napoli', '5cb777f3-b2d7-4dcf-b5d3-6c8acaf5af6f');
+
+SELECT
+  u.user_id,
+  u.user_name,
+  p.post_title
+From users u 
+LEFT JOIN 
+  posts p 
+USING(user_id); --! ON bilan bir xil vazifa bajaradi farqi reference nomi bilan asosiy table id si bir xil bo`sa USING ishlatish mumkin!
+
+ALTER TABLE users ADD COLUMN user_password varchar(150);
+
