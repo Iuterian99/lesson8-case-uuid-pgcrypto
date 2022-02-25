@@ -39,6 +39,7 @@ LEFT JOIN
 USING(user_id); --! ON bilan bir xil vazifa bajaradi farqi reference nomi bilan asosiy table id si bir xil bo`sa USING ishlatish mumkin!
 
 ALTER TABLE users ADD COLUMN user_password varchar(150);
+ALTER TABLE users ADD COLUMN user_age int;
 
   INSERT INTO users(user_name, user_password) VALUES('Nurulloh', crypt('parollik', gen_salt('bf', 4)));
 
@@ -117,3 +118,16 @@ END;
 $$;
 
 
+--! -------------------------------------- Input name & age ---------------------------------------------
+
+CREATE OR REPLACE FUNCTION insert(user_name text, user_age int) 
+RETURNS text
+LANGUAGE plpgsql
+AS $$ 
+DECLARE result text;
+BEGIN 
+INSERT INTO users(user_name, user_age) values(user_name, user_age);
+result = 'Qoshildi';
+RETURN result;
+END;
+$$;
