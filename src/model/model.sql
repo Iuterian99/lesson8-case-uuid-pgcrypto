@@ -13,7 +13,7 @@ CREATE EXTENSION "uuid-ossp"; --! "uuid" idlarni hashlash(shriftlash) uchun ishl
 CREATE EXTENSION IF NOT EXISTS "pgcrypto"; --! passwordlarni hashlash uchun ishlatiladi
 
 CREATE TABLE users(
-  user_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,   --! UUID
   user_name varchar(50) NOT NULL
 );
 
@@ -22,7 +22,7 @@ INSERT INTO users(user_name) values('Muslim');
 INSERT INTO users(user_name) values('Sardor');
 
 CREATE TABLE posts(
-  post_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  post_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, 
   post_title varchar(100) NOT NULL,
   user_id uuid REFERENCES users(user_id)
 );
@@ -46,3 +46,12 @@ ALTER TABLE users ADD COLUMN user_age int;
 SELECT * FROM users WHERE user_name = 'Nurulloh' AND user_password = crypt('parollik', user_password);
 
 
+CREATE TABLE users(
+    user_id serial PRIMARY KEY,
+    user_name varchar(50) NOT NULL,
+    user_age int NOT NULL
+);
+
+INSERT INTO users (user_name, user_age) VALUES ('Muslim', 21);
+INSERT INTO users (user_name, user_age) VALUES('Sardor', 19);
+INSERT INTO users (user_name, user_age) VALUES('Shoxrux', 27);
